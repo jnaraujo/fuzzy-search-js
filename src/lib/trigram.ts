@@ -1,5 +1,5 @@
 /**
- * Check if a character code is a number or a letter;
+word.toLowerCase().split("") * Check if a character is a number or a letter;
  * WARN: This function considers only non-negative numbers and lowercase letters.
  */
 export function isAlphanumeric(code: number) {
