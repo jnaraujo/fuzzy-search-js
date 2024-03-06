@@ -45,8 +45,9 @@ export function trigram(text: string) {
 
   for (const word of words) {
     const letters = filterLetters(word);
-
-    if (letters.length === 0) return [];
+    if (letters.length === 0) {
+      continue;
+    }
 
     for (let i = -prefix_len; i < letters.length - suffix_len; i++) {
       const len = word.length;

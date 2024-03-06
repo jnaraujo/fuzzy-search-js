@@ -14,6 +14,10 @@ describe("trigram", () => {
     expect(trigram("").sort()).toEqual([].sort());
   });
 
+  test("word ' a'", () => {
+    expect(trigram(" a").sort()).toEqual(["  a", " a "].sort());
+  });
+
   test("word 'abc'", () => {
     expect(trigram("abc").sort()).toEqual(["  a", " ab", "abc", "bc "].sort());
   });
