@@ -1,5 +1,5 @@
 /**
-word.toLowerCase().split("") * Check if a character is a number or a letter;
+ * Check if a character code is a number or a letter;
  * WARN: This function considers only non-negative numbers and lowercase letters.
  */
 export function isAlphanumeric(code: number) {
@@ -30,11 +30,11 @@ function generateWords(text: string) {
 }
 
 function filterLetters(word: string) {
-  return word.toLowerCase().split("");
+  return word.split("");
 }
 
 export function trigram(text: string) {
-  const words = generateWords(text);
+  const words = generateWords(text.toLocaleLowerCase());
 
   if (words.size === 0) return [];
 

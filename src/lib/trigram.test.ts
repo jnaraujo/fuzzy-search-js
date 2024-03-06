@@ -30,33 +30,39 @@ describe("trigram", () => {
     );
   });
 
-  // test("phrase 'javascript is a mess'", () => {
-  //   expect(trigram("javascript is a mess").sort()).toEqual(
-  //     [
-  //       "  a",
-  //       "  i",
-  //       "  j",
-  //       "  m",
-  //       " a ",
-  //       " is",
-  //       " ja",
-  //       " me",
-  //       "asc",
-  //       "ava",
-  //       "cri",
-  //       "ess",
-  //       "ipt",
-  //       "is ",
-  //       "jav",
-  //       "mes",
-  //       "pt ",
-  //       "rip",
-  //       "scr",
-  //       "ss ",
-  //       "vas",
-  //     ].sort(),
-  //   );
-  // });
+  test("word 'AbacaTe'", () => {
+    expect(trigram("AbacaTe").sort()).toEqual(
+      ["  a", " ab", "aba", "aca", "ate", "bac", "cat", "te "].sort(),
+    );
+  });
+
+  test("phrase 'javascript is a mess'", () => {
+    expect(trigram("javascript is a mess").sort()).toEqual(
+      [
+        "  a",
+        "  i",
+        "  j",
+        "  m",
+        " a ",
+        " is",
+        " ja",
+        " me",
+        "asc",
+        "ava",
+        "cri",
+        "ess",
+        "ipt",
+        "is ",
+        "jav",
+        "mes",
+        "pt ",
+        "rip",
+        "scr",
+        "ss ",
+        "vas",
+      ].sort(),
+    );
+  });
 });
 
 describe("isAlphaNumeric", () => {
