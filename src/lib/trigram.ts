@@ -7,28 +7,19 @@ export function isAlphanumeric(code: number) {
 }
 
 function generateWords(text: string) {
-  const words: Array<string> = [];
+  const words = new Set<string>();
 
   let start = 0,
     end = 0;
 
   for (let i = 0; i < text.length; i++) {
     if (i === text.length - 1) {
-      const word = text.slice(start, end + 1);
-      if (!words.includes(word)) {
-        words.push(word);
-      }
+      words.add(text.slice(start, end + 1));
       return words;
     }
 
     if (!isAlphanumeric(text.charCodeAt(i))) {
-      if (start !== end) {
-        const word = text.slice(start, end);
-        if (!words.includes(word)) {
-          words.push(text.slice(start, end));
-        }
-      }
-
+      words.add(text.slice(start, end));
       start = end + 1;
     }
 
@@ -38,25 +29,21 @@ function generateWords(text: string) {
   return words;
 }
 
-function filterLetters(word: string) {
-  return word.split("");
-}
-
 export function trigram(text: string) {
   const words = generateWords(text.toLocaleLowerCase());
 
-  if (words.length === 0) return [];
+  if (words.size === 0) return [];
 
   const trigrams = new Set();
 
   const prefix_len = 2;
   const suffix_len = 1;
 
-  for (let i = 0; i < words.length; i++) {
-    const word = words.at(i) || "";
-
-    const letters = filterLetters(word);
-    if (letters.length === 0) continue;
+  for (const word of words) {
+    const letters = word.split("");
+    if (letters.length === 0) {
+      continue;
+    }
 
     for (let i = -prefix_len; i < letters.length - suffix_len; i++) {
       const len = word.length;
@@ -69,4 +56,16 @@ export function trigram(text: string) {
     }
   }
   return Array.from(trigrams);
+}
+
+export function fast_trigram(text: string) {
+  if (text.length === 0) return [];
+
+  const trigrams = new Array(text.length - 2);
+
+  for (let i = 0; i < text.length - 2; i++) {
+    trigrams[i] = text.slice(i, i + 3).toLowerCase();
+  }
+
+  return trigrams;
 }
