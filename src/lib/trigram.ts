@@ -61,10 +61,19 @@ export function trigram(text: string) {
 export function fast_trigram(text: string) {
   if (text.length === 0) return [];
 
-  const trigrams = new Array(text.length - 2);
+  text = text.toLowerCase();
 
-  for (let i = 0; i < text.length - 2; i++) {
-    trigrams[i] = text.slice(i, i + 3).toLowerCase();
+  const len = text.length;
+  const trigrams = new Array(len + 1);
+
+  for (let i = 0; i < len + 1; i++) {
+    if (i <= 1) {
+      trigrams[i] = " ".repeat(2 - i) + text.slice(0, i + 1);
+    } else if (i == len) {
+      trigrams[i] = text.slice(i - 2, i + 1) + " ";
+    } else {
+      trigrams[i] = text.slice(i - 2, i + 1);
+    }
   }
 
   return trigrams;

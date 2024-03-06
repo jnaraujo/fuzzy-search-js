@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { isAlphanumeric, trigram } from "./trigram";
+import { isAlphanumeric, trigram, fast_trigram } from "./trigram";
 
 describe("trigram", () => {
   test("word 'cat'", () => {
@@ -65,6 +65,30 @@ describe("trigram", () => {
         "ss ",
         "vas",
       ].sort(),
+    );
+  });
+});
+
+describe("fast_trigram", () => {
+  test("word 'cat'", () => {
+    expect(fast_trigram("cat").sort()).toEqual(
+      ["  c", " ca", "at ", "cat"].sort(),
+    );
+  });
+
+  test("empty letter", () => {
+    expect(fast_trigram("").sort()).toEqual([].sort());
+  });
+
+  test("word 'abc'", () => {
+    expect(fast_trigram("abc").sort()).toEqual(
+      ["  a", " ab", "abc", "bc "].sort(),
+    );
+  });
+
+  test("word 'AbacaTe'", () => {
+    expect(fast_trigram("AbacaTe").sort()).toEqual(
+      ["  a", " ab", "aba", "aca", "ate", "bac", "cat", "te "].sort(),
     );
   });
 });

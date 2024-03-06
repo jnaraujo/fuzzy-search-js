@@ -1,20 +1,32 @@
-import { trigram } from "@/lib/trigram";
+import { mean, standardDeviation } from "@/lib/sd";
+import { fast_trigram } from "@/lib/trigram";
 
-const phrases = [
-  "javascript is a mess",
-  "ab-ad-ab-ae-bc-dasd",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in dui at arcu efficitur vulputate. Vestibulum libero urna, fermentum quis dolor ac, fringilla gravida nisi. Suspendisse eu orci aliquam, bibendum nunc in, sagittis quam. Praesent mollis gravida eros tincidunt egestas. Sed bibendum, lorem sit amet rhoncus vestibulum, tellus elit ornare justo, vel condimentum augue orci eget metus. Proin posuere cursus lacinia. Aenean sed viverra erat, eu lacinia purus. Vestibulum finibus nisl ac urna ultricies vehicula et ac turpis. Morbi nec libero ut orci eleifend feugiat nec sit amet mi. Sed accumsan rhoncus convallis. Proin vitae pellentesque magna.",
-];
+const TEXT =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in dui at arcu efficitur vulputate. Vestibulum libero urna, fermentum quis dolor ac, fringilla gravida nisi. Suspendisse eu orci aliquam, bibendum nunc in, sagittis quam. Praesent mollis gravida eros tincidunt egestas. Sed bibendum, lorem sit amet rhoncus vestibulum, tellus elit ornare justo, vel condimentum augue orci eget metus. Proin posuere cursus lacinia. Aenean sed viverra erat, eu lacinia purus. Vestibulum finibus nisl ac urna ultricies vehicula et ac turpis. Morbi nec libero ut orci eleifend feugiat nec sit amet mi. Sed accumsan rhoncus convallis. Proin vitae pellentesque magna.";
 
-let counter = 0;
+function mensure(cb: () => void, title = "Untitled") {
+  const times = [];
 
-const N = 100_000;
+  for (let i = 0; i < 50; i++) {
+    const start = performance.now();
+    for (let j = 0; j < 10_000; j++) {
+      cb();
+    }
+    times.push(performance.now() - start);
+  }
 
-const start = performance.now();
-for (let i = 0; i < N; i++) {
-  const word = phrases[counter++ % phrases.length];
+  const total = times.reduce((acc, curr) => acc + curr, 0);
+  const meantm = mean(times) / times.length;
+  const stdev = standardDeviation(times);
 
-  trigram(word);
+  console.log("=".repeat(10));
+  console.log(`Mensure for '${title}'`);
+  console.log(`Total: ${total.toFixed(2)} ms`);
+  console.log(`Mean: ${meantm.toFixed(2)} ms`);
+  console.log(`Stdev: ${stdev.toFixed(2)} ms +/-`);
+  console.log("=".repeat(10));
 }
 
-console.log(`Duration: ${(performance.now() - start).toFixed(2)} ms`);
+mensure(() => {
+  fast_trigram(TEXT);
+}, "fast_trigram");
